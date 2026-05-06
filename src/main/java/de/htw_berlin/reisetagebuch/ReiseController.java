@@ -12,7 +12,7 @@ public class ReiseController {
                 new VisitedCountry("Frankreich", "FR"),
                 new VisitedCountry("Japan", "JP"),
                 new VisitedCountry("USA", "US"),
-                new VisitedCountry("Australien", "AU")
+                new VisitedCountry("Australien", "AU")          // Kommentar Test
         );
     }
 }
