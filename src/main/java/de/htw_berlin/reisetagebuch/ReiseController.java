@@ -11,15 +11,17 @@ public class ReiseController {
     @Autowired
     CountryService service;
 
-    @CrossOrigin
+    @CrossOrigin(origins = {"https://reisetagebuch-frontend.onrender.com", "https://reisetagebuch-frontend-1.onrender.com"})
     @GetMapping("/countries")
     public List<VisitedCountry> getAllCountries() {
         return service.getAll();
     }
 
-    @CrossOrigin
+    @CrossOrigin(origins = {"https://reisetagebuch-frontend.onrender.com", "https://reisetagebuch-frontend-1.onrender.com"})
     @PostMapping("/countries")
     public VisitedCountry addCountry(@RequestBody VisitedCountry country) {
         return service.save(country);
     }
+
+
 }
