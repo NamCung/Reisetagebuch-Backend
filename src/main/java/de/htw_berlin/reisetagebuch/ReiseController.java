@@ -23,5 +23,56 @@ public class ReiseController {
         return service.save(country);
     }
 
+    @Autowired
+    ReiseService reiseService;
 
+    @Autowired
+    DiaryEntryService diaryEntryService;
+
+    // ── Reisen ──────────────────────────────────
+    @GetMapping("/reisen")
+    public List<Reise> getAllReisen() {
+        return reiseService.getAll();
+    }
+
+    @PostMapping("/reisen")
+    public Reise addReise(@RequestBody Reise reise) {
+        return reiseService.save(reise);
+    }
+
+    @PutMapping("/reisen/{id}")
+    public Reise updateReise(@PathVariable Long id, @RequestBody Reise reise) {
+        reise.setId(id);
+        return reiseService.save(reise);
+    }
+
+    @DeleteMapping("/reisen/{id}")
+    public void deleteReise(@PathVariable Long id) {
+        reiseService.delete(id);
+    }
+
+    // ── DiaryEntries ─────────────────────────────
+    @GetMapping("/reisen/{id}/entries")
+    public List<DiaryEntry> getEntries(@PathVariable Long id) {
+        return diaryEntryService.getByReise(id);
+    }
+
+    @PostMapping("/entries")
+    public DiaryEntry addEntry(@RequestBody DiaryEntry entry) {
+        return diaryEntryService.save(entry);
+    }
+
+    @PutMapping("/entries/{id}")
+    public DiaryEntry updateEntry(@PathVariable Long id, @RequestBody DiaryEntry entry) {
+        entry.setId(id);
+        return diaryEntryService.save(entry);
+    }
+
+    @DeleteMapping("/entries/{id}")
+    public void deleteEntry(@PathVariable Long id) {
+        diaryEntryService.delete(id);
+    }
 }
+
+
+
