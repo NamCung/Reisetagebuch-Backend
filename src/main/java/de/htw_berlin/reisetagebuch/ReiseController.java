@@ -4,24 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "https://reisetagebuch-frontend.onrender.com",
+        "https://reisetagebuch-frontend-1.onrender.com"
+})
 public class ReiseController {
 
     @Autowired
     CountryService service;
-
-    @CrossOrigin(origins = {"https://reisetagebuch-frontend.onrender.com", "https://reisetagebuch-frontend-1.onrender.com"})
-    @GetMapping("/countries")
-    public List<VisitedCountry> getAllCountries() {
-        return service.getAll();
-    }
-
-    @CrossOrigin(origins = {"https://reisetagebuch-frontend.onrender.com", "https://reisetagebuch-frontend-1.onrender.com"})
-    @PostMapping("/countries")
-    public VisitedCountry addCountry(@RequestBody VisitedCountry country) {
-        return service.save(country);
-    }
 
     @Autowired
     ReiseService reiseService;
@@ -29,7 +23,25 @@ public class ReiseController {
     @Autowired
     DiaryEntryService diaryEntryService;
 
-    // ── Reisen ──────────────────────────────────
+    // ── Countries ────────────────────────────────
+
+    @GetMapping("/countries/visited")
+    public List<VisitedCountry> getAllCountries() {
+        return service.getAll();
+    }
+
+    @PostMapping("/countries")
+    public VisitedCountry addCountry(@RequestBody Map<String, String> body) {
+        return service.add(body.get("country"), body.get("countryCode"));
+    }
+
+    @DeleteMapping("/countries/{countryCode}")
+    public void deleteCountry(@PathVariable String countryCode) {
+        service.delete(countryCode);
+    }
+
+    // ── Reisen ───────────────────────────────────
+
     @GetMapping("/reisen")
     public List<Reise> getAllReisen() {
         return reiseService.getAll();
@@ -52,6 +64,7 @@ public class ReiseController {
     }
 
     // ── DiaryEntries ─────────────────────────────
+
     @GetMapping("/reisen/{id}/entries")
     public List<DiaryEntry> getEntries(@PathVariable Long id) {
         return diaryEntryService.getByReise(id);
@@ -73,6 +86,3 @@ public class ReiseController {
         diaryEntryService.delete(id);
     }
 }
-
-
-
