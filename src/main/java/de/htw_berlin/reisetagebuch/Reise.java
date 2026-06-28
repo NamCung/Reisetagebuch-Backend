@@ -15,8 +15,9 @@ public class Reise {
     LocalDate endDatum;
     String reiseziel;
     String beschreibung;
+    String status;
 
-    public Reise() {}
+    public Reise() { this.status = "ENTWURF"; }
 
     public Reise(String titel, LocalDate startDatum, LocalDate endDatum,
                  String reiseziel, String beschreibung) {
@@ -25,6 +26,16 @@ public class Reise {
         this.endDatum = endDatum;
         this.reiseziel = reiseziel;
         this.beschreibung = beschreibung;
+    }
+
+    public Reise(String titel, LocalDate startDatum, LocalDate endDatum,
+                 String reiseziel, String beschreibung, String status) {
+        this.titel = titel;
+        this.startDatum = startDatum;
+        this.endDatum = endDatum;
+        this.reiseziel = reiseziel;
+        this.beschreibung = beschreibung;
+        this.status = status;
     }
 
     public Long getId() { return id; }
@@ -45,8 +56,11 @@ public class Reise {
     public String getBeschreibung() { return beschreibung; }
     public void setBeschreibung(String beschreibung) { this.beschreibung = beschreibung; }
 
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
     @Override
     public String toString() {
-        return "Reise{id=" + id + ", titel='" + titel + "', reiseziel='" + reiseziel + "'}";
+        return "Reise{id=" + id + ", titel='" + titel + "', reiseziel='" + reiseziel + "', status='" + status + "'}";
     }
 }
