@@ -23,6 +23,9 @@ public class ReiseController {
     @Autowired
     DiaryEntryService diaryEntryService;
 
+    @Autowired
+    GeplanterOrtService geplanterOrtService;
+
     // ── Countries ────────────────────────────────
 
     @GetMapping("/countries/visited")
@@ -84,5 +87,22 @@ public class ReiseController {
     @DeleteMapping("/entries/{id}")
     public void deleteEntry(@PathVariable Long id) {
         diaryEntryService.delete(id);
+    }
+
+    // ── Geplante Orte ─────────────────────────────
+
+    @GetMapping("/reisen/{id}/orte")
+    public List<GeplanterOrt> getOrte(@PathVariable Long id) {
+        return geplanterOrtService.getByReise(id);
+    }
+
+    @PostMapping("/orte")
+    public GeplanterOrt addOrt(@RequestBody GeplanterOrt ort) {
+        return geplanterOrtService.save(ort);
+    }
+
+    @DeleteMapping("/orte/{id}")
+    public void deleteOrt(@PathVariable Long id) {
+        geplanterOrtService.delete(id);
     }
 }
