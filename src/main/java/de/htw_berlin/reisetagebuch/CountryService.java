@@ -14,21 +14,24 @@ public class CountryService {
         this.repo = repo;
     }
 
-    public List<VisitedCountry> getAll() {
-        return repo.findAll();
+    // Nur Länder des eingeloggten Users zurückgeben
+    public List<VisitedCountry> getByBesitzer(String email) {
+        return repo.findByBesitzer(email);
     }
 
-    public VisitedCountry add(String country, String countryCode) {
+    public VisitedCountry add(String country, String countryCode, String email) {
         if (countryCode == null || countryCode.isBlank() || countryCode.equals("-99")) {
             throw new IllegalArgumentException("Ungültiger countryCode: " + countryCode + " (" + country + ")");
         }
-        if (repo.existsByCountryCode(countryCode))
-            return repo.findByCountryCode(countryCode).get();
-        return repo.save(new VisitedCountry(country, countryCode));
+        // Prüfen ob dieser User das Land schon hat
+        if (repo.existsByCountryCodeAndBesitzer(countryCode, email)) {
+            return repo.findByCountryCodeAndBesitzer(countryCode, email).get();
+        }
+        return repo.save(new VisitedCountry(country, countryCode, email));
     }
 
     @Transactional
-    public void delete(String countryCode) {
-        repo.deleteByCountryCode(countryCode);
+    public void deleteByCodeAndBesitzer(String countryCode, String email) {
+        repo.deleteByCountryCodeAndBesitzer(countryCode, email);
     }
 }

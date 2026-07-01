@@ -25,6 +25,11 @@ public class ReiseService {
         return list;
     }
 
+    // Nur Reisen des eingeloggten Users zurückgeben
+    public List<Reise> getByBesitzer(String email) {
+        return repo.findByBesitzer(email);
+    }
+
     public void delete(Long id) {
         repo.deleteById(id);
     }

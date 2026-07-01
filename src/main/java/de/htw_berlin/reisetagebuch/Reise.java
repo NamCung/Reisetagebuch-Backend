@@ -17,6 +17,9 @@ public class Reise {
     String beschreibung;
     String status;
 
+    // Email des Besitzers für Datentrennung
+    String besitzer;
+
     public Reise() { this.status = "ENTWURF"; }
 
     public Reise(String titel, LocalDate startDatum, LocalDate endDatum,
@@ -58,6 +61,9 @@ public class Reise {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public String getBesitzer() { return besitzer; }
+    public void setBesitzer(String besitzer) { this.besitzer = besitzer; }
 
     @Override
     public String toString() {

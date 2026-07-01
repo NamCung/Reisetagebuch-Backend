@@ -31,26 +31,28 @@ public class ReiseController {
 
     // ── Countries ────────────────────────────────
 
+    // Email als Parameter - nur Länder des eingeloggten Users
     @GetMapping("/countries/visited")
-    public List<VisitedCountry> getAllCountries() {
-        return service.getAll();
+    public List<VisitedCountry> getAllCountries(@RequestParam String email) {
+        return service.getByBesitzer(email);
     }
 
     @PostMapping("/countries")
     public VisitedCountry addCountry(@RequestBody Map<String, String> body) {
-        return service.add(body.get("country"), body.get("countryCode"));
+        return service.add(body.get("country"), body.get("countryCode"), body.get("email"));
     }
 
     @DeleteMapping("/countries/{countryCode}")
-    public void deleteCountry(@PathVariable String countryCode) {
-        service.delete(countryCode);
+    public void deleteCountry(@PathVariable String countryCode, @RequestParam String email) {
+        service.deleteByCodeAndBesitzer(countryCode, email);
     }
 
     // ── Reisen ───────────────────────────────────
 
+    // Nur Reisen des eingeloggten Users
     @GetMapping("/reisen")
-    public List<Reise> getAllReisen() {
-        return reiseService.getAll();
+    public List<Reise> getAllReisen(@RequestParam String email) {
+        return reiseService.getByBesitzer(email);
     }
 
     @PostMapping("/reisen")
@@ -109,6 +111,8 @@ public class ReiseController {
         geplanterOrtService.delete(id);
     }
 
+    // ── Fotos ─────────────────────────────────────
+
     @GetMapping("/entries/{id}/fotos")
     public List<EntryFoto> getFotos(@PathVariable Long id) {
         return fotoService.getByEntry(id);
@@ -124,5 +128,3 @@ public class ReiseController {
         fotoService.delete(id);
     }
 }
-
-
