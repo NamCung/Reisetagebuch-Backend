@@ -26,6 +26,9 @@ public class ReiseController {
     @Autowired
     GeplanterOrtService geplanterOrtService;
 
+    @Autowired
+    EntryFotoService fotoService;
+
     // ── Countries ────────────────────────────────
 
     @GetMapping("/countries/visited")
@@ -105,4 +108,21 @@ public class ReiseController {
     public void deleteOrt(@PathVariable Long id) {
         geplanterOrtService.delete(id);
     }
+
+    @GetMapping("/entries/{id}/fotos")
+    public List<EntryFoto> getFotos(@PathVariable Long id) {
+        return fotoService.getByEntry(id);
+    }
+
+    @PostMapping("/entries/{id}/fotos")
+    public EntryFoto addFoto(@PathVariable Long id, @RequestBody Map<String, String> body) {
+        return fotoService.save(id, body.get("imageData"), body.get("dateiname"));
+    }
+
+    @DeleteMapping("/fotos/{id}")
+    public void deleteFoto(@PathVariable Long id) {
+        fotoService.delete(id);
+    }
 }
+
+
